@@ -3,13 +3,26 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
 const userRoute = require('./app/api/routes/users')
-const { default: mongoose } = require('mongoose')
-
-
+const movieRoute = require('./app/api/routes/movies')
+const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
+app.set('secretKey','hdjsakfhdjsk')
+const userValidation = (req, res,next) => {
+    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), 
+    (err,decoded) =>{
+        if(err){
+            res.json({
+                message: err
+            })
+        }
+        next()
+    })
+}
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use('/user',userRoute)
-app.set('secretKey','hdjsakfhdjsk')
+
+app.use('/movie',userValidation, movieRoute)
 
 
 app.get('/', (req,res) => {
