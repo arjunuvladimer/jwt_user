@@ -22,11 +22,13 @@ const create = (req,res,next) => {
 } 
 
 const login = (req,res,next) => {
+    console.log("check1")
     UserModel.findOne({email:req.body.email}, (err,result) => {
-        if(err)
-        next(err)
+        if(err){
+            next(err)
+        }
         else{
-            if(bcrypt.compareSync(req.body.password,result.password)){
+            if(bcrypt.compare(req.body.password, result.password)){
                 const token = jwt.sign({id:result._id},req.app.get('secretKey'), {expiresIn:'1h'})
                 res.json({
                     status:"Success",

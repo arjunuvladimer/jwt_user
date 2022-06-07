@@ -9,6 +9,7 @@ const { default: mongoose } = require('mongoose')
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use('/user',userRoute)
+app.set('secretKey','hdjsakfhdjsk')
 
 
 app.get('/', (req,res) => {
