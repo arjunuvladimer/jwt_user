@@ -50,6 +50,8 @@ mongoose.connect(mongoURI) // Successfully Runs
     console.log(err)
 })
 
+// Setter set a secretKey with a random string for your jwt intial token generation
+app.set('secretKey','hdjsakfhdjskgfsdfgsdf')
 
 // Custom Lambda Function with a const Variable 
 const userValidation = (req, res,next) => { 
@@ -57,10 +59,6 @@ const userValidation = (req, res,next) => {
     // - req => takes the request from client
     // - res => send response from server 
     // - next => next step to be executed
-
-// Setter set a secretKey with a random string for your jwt intial token generation
-app.set('secretKey','hdjsakfhdjsk')
-
     jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), 
     (err,decoded) =>{
         if(err){

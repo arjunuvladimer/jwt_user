@@ -2,9 +2,9 @@ const MovieModel = require('../models/movies')
 
 
 // Create
-const createMovie = (req,res,next) => {
+const createMovie = async (req,res,next) => {
     let {name,release_date} = req.body
-    MovieModel.create({
+    await MovieModel.create({
         name,
         release_date
     }, (err,result) => {
@@ -12,7 +12,8 @@ const createMovie = (req,res,next) => {
             next(err)
         res.json({
             status:"Success",
-            message:"Added Movie Successfully"
+            message:"Added Movie Successfully",
+            data: result
         })
     })
 }
