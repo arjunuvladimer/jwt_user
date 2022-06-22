@@ -14,6 +14,9 @@ const mongoose = require('mongoose')
 // Used
 // Connect with Database
 const jwt = require('jsonwebtoken')
+
+require('dotenv').config();
+
 // Used
 // Verify the security token
 
@@ -28,9 +31,10 @@ app.use(logger('dev'))
 // Intializing bodyParser.json() for the express to use
 app.use(bodyParser.json())
 
+const port = process.env.PORT
 // Client hits the ip: localhost we are trying to listen to him at the port 5000
-app.listen(5000,() => {
-    console.log("Successfully Running on the PORT: 5000")
+app.listen(port,() => {
+    console.log(`Successfully Running on the PORT: ${port}`)
 })
 
 // Default Route / => Send the response json => object => 
@@ -38,11 +42,9 @@ app.get('/', (req,res) => {
     res.sendFile('/Users/apple/Desktop/ Star /jwt_user/sample.html')
 })
 
-// Intializing the URI to const variable
-const mongoURI = "mongodb+srv://arjunuvlad:arjun123@hitman24.ct1jy.mongodb.net/?retryWrites=true&w=majority"
-
+const MONGOURI = process.env.MONGOURI
 // connect function to connect to database
-mongoose.connect(mongoURI) // Successfully Runs
+mongoose.connect(MONGOURI) // Successfully Runs
 .then(() => { // Next Step is to print a message to console
     console.log("Successfully Connected to the Database")
 })
@@ -50,8 +52,7 @@ mongoose.connect(mongoURI) // Successfully Runs
     console.log(err)
 })
 
-// Setter set a secretKey with a random string for your jwt intial token generation
-app.set('secretKey','hdjsakfhdjskgfsdfgsdf')
+
 
 // Custom Lambda Function with a const Variable 
 const userValidation = (req, res,next) => { 
@@ -59,7 +60,7 @@ const userValidation = (req, res,next) => {
     // - req => takes the request from client
     // - res => send response from server 
     // - next => next step to be executed
-    jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), 
+    jwt.verify(req.headers['x-access-token'], process.env.SECRET_KEY, 
     (err,decoded) =>{
         if(err){
             res.json({

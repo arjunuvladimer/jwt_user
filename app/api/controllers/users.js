@@ -77,7 +77,7 @@ const login = (req,res,next) => {
                 // Sign Function
                 // Params
                 // id, secretKey, and expire session time for the token
-                const token = jwt.sign({id:result._id},req.app.get('secretKey'), {expiresIn:'1h'})
+                const token = jwt.sign({id:result._id},process.env.SECRET_KEY, {expiresIn:'1h'})
                 // Sending Response with status, message, and data => {result, token}
                 res.json({
                     status:"Success",
